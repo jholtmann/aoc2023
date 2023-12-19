@@ -1,7 +1,7 @@
 use clap::Parser;
-use std::collections::HashSet;
 use std::fs;
 use aoc2023::Args;
+use aoc2023::utils::read_ints;
 
 
 fn main() -> anyhow::Result<()> {
@@ -16,19 +16,8 @@ fn main() -> anyhow::Result<()> {
         let line = &line[line.find(':').unwrap()+2..];
         let line = line.split('|').collect::<Vec<&str>>();
 
-        let target = line[0];
-        let target = target
-            .split(' ')
-            .filter(|&x| !x.is_empty())
-            .map(|x| x.trim().parse::<usize>().expect("failed to parse to number"))
-            .collect::<HashSet<usize>>();
-
-        let hand = line[1];
-        let hand = hand
-            .split(' ')
-            .filter(|&x| !x.is_empty())
-            .map(|x| x.trim().parse::<usize>().expect("failed to parse to number"))
-            .collect::<HashSet<usize>>();
+        let target = read_ints(line[0], ' ');
+        let hand = read_ints(line[1], ' ');
 
         println!("{:?}", target);
         println!("{:?}", hand);
