@@ -1,13 +1,6 @@
-use std::fs;
-use std::path::PathBuf;
 use clap::Parser;
-
-#[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
-struct Args {
-    #[clap(short, long)]
-    input_file: PathBuf
-}
+use std::fs;
+use aoc2023::Args;
 
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();

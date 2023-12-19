@@ -1,40 +1,12 @@
+use clap::Parser;
 use std::collections::HashMap;
 use std::fs;
-use std::path::PathBuf;
-use clap::Parser;
-
-#[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
-struct Args {
-    #[clap(short, long)]
-    input_file: PathBuf
-}
-
-const RADIX: u32 = 10;
-
-fn read_int(line: &str) -> anyhow::Result<(usize, usize)> {
-    println!("{}", line);
-    let mut chars = String::from("");
-
-    let mut index = 0;
-    for (i, c) in line.chars().enumerate() {
-        if !c.is_digit(RADIX) {
-            index = i;
-            break;
-        }
-
-        chars.push(c);
-    }
-
-    Ok((chars.parse::<usize>()?, index))
-}
+use aoc2023::Args;
+use aoc2023::utils::read_int;
 
 fn main() -> anyhow::Result<()> {
-    let marble_limits: HashMap<&str, usize> = HashMap::from([
-        ("red", 12),
-        ("green", 13),
-        ("blue", 14),
-    ]);
+    let marble_limits: HashMap<&str, usize> =
+        HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);
 
     let args = Args::parse();
 
@@ -53,7 +25,9 @@ fn main() -> anyhow::Result<()> {
             .parse::<usize>()?;
 
         // split game into component hands
-        let hands = &content[(game_index + 2)..].split("; ").collect::<Vec<&str>>();
+        let hands = &content[(game_index + 2)..]
+            .split("; ")
+            .collect::<Vec<&str>>();
 
         // track if game is still valid
         let mut allowed_game = true;
